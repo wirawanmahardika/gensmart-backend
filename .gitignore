@@ -1,0 +1,86 @@
+# =====================================
+# GO BUILD & DEPENDENCIES
+# =====================================
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Output of go build
+/build/
+/bin/
+/dist/
+/tmp/
+
+# Go workspace file (for Go >=1.18)
+go.work
+go.work.sum
+
+# Go coverage files
+*.cover
+*.coverprofile
+*.testresult
+
+# Go race detector log
+*.race
+
+# =====================================
+# ENV & CONFIG
+# =====================================
+
+# Environment variables
+.env
+.env.*     # For multiple env files like .env.dev, .env.prod
+
+# Local config
+config/local.yaml
+config/*.local.*
+
+# =====================================
+# EDITOR / IDE
+# =====================================
+
+# VSCode
+.vscode/
+
+# GoLand / JetBrains
+.idea/
+*.iml
+
+# Sublime
+*.sublime-workspace
+*.sublime-project
+
+# =====================================
+# OS SYSTEM FILES
+# =====================================
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# =====================================
+# LOGS / TEMP
+# =====================================
+
+*.log
+*.tmp
+*.swp
+*.swo
+
+
+# my unexpected folder/files
+proposal.md

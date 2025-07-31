@@ -1,0 +1,3 @@
+
+migrate :
+migrate -path ./migration -database "mysql://dika:wm050604@tcp(localhost:3306)/gensmart" up
