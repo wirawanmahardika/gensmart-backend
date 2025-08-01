@@ -13,6 +13,18 @@ CREATE TABLE
     -- FOREIGN KEY (id_sekolah) REFERENCES sekolah (id)
   );
 
+CREATE TABLE
+  beasiswa (
+    id CHAR(36) NOT NULL                                                               ,
+    `nama` VARCHAR(101) NOT NULL                                                       ,
+    link VARCHAR(200) NOT NULL                                                         ,
+    deskripsi TEXT NOT NULL                                                            ,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP                             ,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)                                                                   ,
+    UNIQUE KEY (nama)
+  );
+
 -- CREATE TABLE
 --   sekolah (
 --     id CHAR(36) NOT NULL                                                               ,

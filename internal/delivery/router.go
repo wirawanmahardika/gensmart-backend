@@ -12,6 +12,7 @@ import (
 
 func Router(router *fiber.App, db *gorm.DB) {
 	userRouter(router, db)
+	beasiswaRouter(router, db)
 }
 
 func userRouter(router fiber.Router, db *gorm.DB) {
@@ -27,4 +28,13 @@ func userRouter(router fiber.Router, db *gorm.DB) {
 	}))
 
 	userRouter.Get("/", userHandler.Data)
+}
+
+func beasiswaRouter(router fiber.Router, db *gorm.DB) {
+	beasiswaUsecase := usecase.NewBeasiswaUsecase(db, pkg.Validate)
+	beasiswaHandler := api.NewBeasiswaHandler(beasiswaUsecase)
+
+	beasiswaRouter := router.Group("/v1/beasiswa")
+	beasiswaRouter.Post("/", beasiswaHandler.Create)
+	beasiswaRouter.Get("/:id", beasiswaHandler.GetOne)
 }

@@ -7,7 +7,7 @@
     "paths": {
         "/v1/user": {
             "get": {
-                "summary": "user login",
+                "summary": "ambil data user",
                 "tags": [
                     "users"
                 ],
@@ -70,7 +70,7 @@
                     "201": {
                         "description": "berhasil daftar",
                         "content": {
-                            "application/json": {
+                            "text/plain": {
                                 "schema": {
                                     "type": "string",
                                     "example": "Berhasil daftar"
@@ -129,6 +129,67 @@
                     }
                 }
             }
+        },
+        "/v1/beasiswa": {
+            "post": {
+                "summary": "membuat beasiswa",
+                "tags": [
+                    "beasiswa"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nama": {
+                                        "type": "string"
+                                    },
+                                    "link": {
+                                        "type": "string"
+                                    },
+                                    "deskripsi": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "berhasil membuat beasiswa",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Berhasil membuat beasiswa"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/beasiswa/{id}": {
+            "get": {
+                "summary": "ambil beasiswa by id",
+                "tags": [
+                    "beasiswa"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "berhasil mengambil beasiswa by id",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/beasiswa"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -146,6 +207,29 @@
                         "type": "string"
                     },
                     "role": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
+                    }
+                }
+            },
+            "beasiswa": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "nama": {
+                        "type": "string"
+                    },
+                    "link": {
+                        "type": "string"
+                    },
+                    "deskripsi": {
                         "type": "string"
                     },
                     "created_at": {
