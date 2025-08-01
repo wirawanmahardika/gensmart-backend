@@ -1,7 +1,7 @@
 package api
 
 import (
-	userDomain "gensmart/internal/domain/user"
+	"gensmart/internal/delivery/dto"
 	"gensmart/internal/usecase"
 	"gensmart/pkg"
 
@@ -23,7 +23,7 @@ type userHandlerImpl struct {
 }
 
 func (h *userHandlerImpl) Register(c *fiber.Ctx) (err error) {
-	req := new(userDomain.UserRegisterRequest)
+	req := new(dto.UserRegisterRequest)
 	if err = c.BodyParser(req); err != nil {
 		return pkg.BodyParserError()
 	}
@@ -36,7 +36,7 @@ func (h *userHandlerImpl) Register(c *fiber.Ctx) (err error) {
 }
 
 func (h *userHandlerImpl) Login(c *fiber.Ctx) (err error) {
-	req := new(userDomain.UserLoginRequest)
+	req := new(dto.UserLoginRequest)
 	if err = c.BodyParser(req); err != nil {
 		return pkg.BodyParserError()
 	}

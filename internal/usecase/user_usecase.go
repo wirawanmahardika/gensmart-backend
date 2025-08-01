@@ -3,8 +3,8 @@ package usecase
 import (
 	"errors"
 	"gensmart/config"
+	"gensmart/internal/delivery/dto"
 	"gensmart/internal/domain"
-	userDomain "gensmart/internal/domain/user"
 	"gensmart/pkg"
 	"slices"
 
@@ -14,8 +14,8 @@ import (
 )
 
 type UserUsecase interface {
-	Register(req *userDomain.UserRegisterRequest) (err error)
-	Login(req *userDomain.UserLoginRequest) (token string, err error)
+	Register(req *dto.UserRegisterRequest) (err error)
+	Login(req *dto.UserLoginRequest) (token string, err error)
 	Data(email string) (user domain.Users, err error)
 }
 
@@ -28,7 +28,7 @@ type userUsecaseImpl struct {
 	validate *validator.Validate
 }
 
-func (uc *userUsecaseImpl) Register(req *userDomain.UserRegisterRequest) (err error) {
+func (uc *userUsecaseImpl) Register(req *dto.UserRegisterRequest) (err error) {
 	if err = uc.validate.Struct(req); err != nil {
 		return
 	}
@@ -61,7 +61,7 @@ func (uc *userUsecaseImpl) Register(req *userDomain.UserRegisterRequest) (err er
 	return
 }
 
-func (uc *userUsecaseImpl) Login(req *userDomain.UserLoginRequest) (token string, err error) {
+func (uc *userUsecaseImpl) Login(req *dto.UserLoginRequest) (token string, err error) {
 	if err = uc.validate.Struct(req); err != nil {
 		return
 	}

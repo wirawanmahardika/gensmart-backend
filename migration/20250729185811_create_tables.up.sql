@@ -51,18 +51,19 @@ CREATE TABLE
     PRIMARY KEY (id)                                                                   ,
   );
 
--- CREATE TABLE
---   sekolah (
---     id CHAR(36) NOT NULL                                                               ,
---     `nama` VARCHAR(101) NOT NULL                                                       ,
---     alamat TEXT NOT NULL                                                               ,
---     status_verifikasi BOOLEAN DEFAULT FALSE                                            ,
---     `password` VARCHAR(21) NOT NULL                                                    ,
---     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP                             ,
---     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
---     PRIMARY KEY (id)                                                                   ,
---     UNIQUE KEY (email)
---   );
+CREATE TABLE
+  sekolah (
+    id CHAR(36) NOT NULL                                                               ,
+    `nama` VARCHAR(101) NOT NULL                                                       ,
+    alamat TEXT NOT NULL                                                               ,
+    status_verifikasi BOOLEAN DEFAULT FALSE                                            ,
+    `password` VARCHAR(21) NOT NULL                                                    ,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP                             ,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)                                                                   ,
+    UNIQUE KEY (email)
+  );
+  
 -- CREATE TABLE
 --   testimoni (
 --     id CHAR(36) NOT NULL                                                               ,
