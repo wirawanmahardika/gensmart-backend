@@ -5,6 +5,38 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/v1/user": {
+            "get": {
+                "summary": "user login",
+                "tags": [
+                    "users"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer token123oijaosifdj"
+                        },
+                        "description": "Bearer token"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "berhasil mengambil data user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v1/user/register": {
             "post": {
                 "summary": "user daftar",
@@ -80,8 +112,12 @@
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "message": {"type": "string"},
-                                        "token": {"type": "string"}
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "token": {
+                                            "type": "string"
+                                        }
                                     },
                                     "example": {
                                         "message": "Berhasil login",
@@ -90,6 +126,33 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "user": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
                     }
                 }
             }
