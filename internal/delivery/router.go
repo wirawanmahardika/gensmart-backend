@@ -37,4 +37,5 @@ func beasiswaRouter(router fiber.Router, db *gorm.DB) {
 	beasiswaRouter := router.Group("/v1/beasiswa")
 	beasiswaRouter.Post("/", beasiswaHandler.Create)
 	beasiswaRouter.Get("/:id", beasiswaHandler.GetOne)
+	beasiswaRouter.Get("/", beasiswaHandler.GetMany)
 }

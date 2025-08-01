@@ -169,6 +169,25 @@
                         }
                     }
                 }
+            },
+            "get": {
+                "tags": ["beasiswa"],
+                "summary": "ambil banyak beasiswa",
+                "responses": {
+                    "200": {
+                        "description": "berhasil mengambil banyak siswa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/beasiswa"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/v1/beasiswa/{id}": {

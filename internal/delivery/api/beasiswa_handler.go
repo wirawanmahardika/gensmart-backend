@@ -10,6 +10,7 @@ import (
 type BeasiswaHandler interface {
 	Create(c *fiber.Ctx) (err error)
 	GetOne(c *fiber.Ctx) (err error)
+	GetMany(c *fiber.Ctx) (err error)
 }
 
 func NewBeasiswaHandler(uc usecase.BeasiswaUsecase) BeasiswaHandler {
@@ -35,6 +36,15 @@ func (h *BeasiswaHandlerImpl) Create(c *fiber.Ctx) (err error) {
 
 func (h *BeasiswaHandlerImpl) GetOne(c *fiber.Ctx) (err error) {
 	beasiswa, err := h.uc.GetOne(c.Params("id"))
+	if err != nil {
+		return
+	}
+
+	return c.JSON(beasiswa)
+}
+
+func (h *BeasiswaHandlerImpl) GetMany(c *fiber.Ctx) (err error) {
+	beasiswa, err := h.uc.GetMany()
 	if err != nil {
 		return
 	}

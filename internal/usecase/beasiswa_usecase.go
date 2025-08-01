@@ -12,6 +12,7 @@ import (
 type BeasiswaUsecase interface {
 	Create(req *beasiswaDomain.CreateBeasiswaRequest) (err error)
 	GetOne(id string) (beasiswa *beasiswaDomain.Entity, err error)
+	GetMany() (beasiswa []beasiswaDomain.Entity, err error)
 }
 
 func NewBeasiswaUsecase(db *gorm.DB, validate *validator.Validate) BeasiswaUsecase {
@@ -43,6 +44,17 @@ func (uc *beasiswaUsecaseImpl) GetOne(id string) (beasiswa *beasiswaDomain.Entit
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			err = fiber.NewError(404, "Beasiswa tidak ditemukan")
 		}
+		return
+	}
+
+	return
+}
+
+func (uc *beasiswaUsecaseImpl) GetMany() (beasiswa []beasiswaDomain.Entity, err error) {
+	if err = uc.db.Find(&beasiswa).Error; err != nil {
+		return
+	} else if len(beasiswa) == 0 {
+		err = fiber.NewError(404, "beasiswa tidak ditemukan")
 		return
 	}
 
