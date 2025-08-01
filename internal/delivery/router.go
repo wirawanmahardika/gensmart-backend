@@ -11,6 +11,10 @@ import (
 )
 
 func Router(router *fiber.App, db *gorm.DB) {
+	userRouter(router, db)
+}
+
+func userRouter(router fiber.Router, db *gorm.DB) {
 	userUsecase := usecase.NewUserUsecase(db, pkg.Validate)
 	userHandler := api.NewUserHandler(userUsecase)
 
@@ -18,11 +22,9 @@ func Router(router *fiber.App, db *gorm.DB) {
 	userRouter.Post("/register", userHandler.Register)
 	userRouter.Post("/login", userHandler.Login)
 
-	router.Use(jwtware.New(jwtware.Config{
+	userRouter.Use(jwtware.New(jwtware.Config{
 		SigningKey: jwtware.SigningKey{Key: []byte("secret")},
 	}))
 
-	router.Get("/v1", func(c *fiber.Ctx) error {
-		return c.SendString("hello world")
-	})
+	userRouter.Get("/", userHandler.Data)
 }

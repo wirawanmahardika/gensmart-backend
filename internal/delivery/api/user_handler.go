@@ -11,6 +11,7 @@ import (
 type UserHandler interface {
 	Register(c *fiber.Ctx) (err error)
 	Login(c *fiber.Ctx) (err error)
+	Data(c *fiber.Ctx) (err error)
 }
 
 func NewUserHandler(uc usecase.UserUsecase) UserHandler {
@@ -49,4 +50,14 @@ func (h *userHandlerImpl) Login(c *fiber.Ctx) (err error) {
 		"message": "Berhasil login",
 		"token":   token,
 	})
+}
+
+func (h *userHandlerImpl) Data(c *fiber.Ctx) (err error) {
+	_, email := pkg.GetDataFromToken(c)
+	user, err := h.uc.Data(email)
+	if err != nil {
+		return
+	}
+
+	return c.JSON(user)
 }

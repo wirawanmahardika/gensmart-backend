@@ -15,6 +15,7 @@ import (
 type UserUsecase interface {
 	Register(req *userDomain.UserRegisterRequest) (err error)
 	Login(req *userDomain.UserLoginRequest) (token string, err error)
+	Data(email string) (user userDomain.Entity, err error)
 }
 
 func NewUserUsecase(db *gorm.DB, validate *validator.Validate) UserUsecase {
@@ -79,5 +80,17 @@ func (uc *userUsecaseImpl) Login(req *userDomain.UserLoginRequest) (token string
 	if err != nil {
 		return
 	}
+	return
+}
+
+func (uc *userUsecaseImpl) Data(email string) (user userDomain.Entity, err error) {
+	if err = uc.db.Where("email = ?", email).Take(&user).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			err = fiber.NewError(404, "data tidak ditemukan")
+		}
+		return
+	}
+
+	user.Password = ""
 	return
 }
