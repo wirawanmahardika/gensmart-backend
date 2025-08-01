@@ -13,6 +13,7 @@ import (
 func Router(router *fiber.App, db *gorm.DB) {
 	userRouter(router, db)
 	beasiswaRouter(router, db)
+	testimoniRouter(router, db)
 }
 
 func userRouter(router fiber.Router, db *gorm.DB) {
@@ -38,4 +39,16 @@ func beasiswaRouter(router fiber.Router, db *gorm.DB) {
 	beasiswaRouter.Post("/", beasiswaHandler.Create)
 	beasiswaRouter.Get("/:id", beasiswaHandler.GetOne)
 	beasiswaRouter.Get("/", beasiswaHandler.GetMany)
+}
+
+func testimoniRouter(router fiber.Router, db *gorm.DB) {
+	testimoniUsecase := usecase.NewTestimoniUsecase(db, pkg.Validate)
+	testimoniHandler := api.NewTestimoniHandler(testimoniUsecase)
+
+	beasiswaRouter := router.Group("/v1/testimoni")
+	beasiswaRouter.Use(jwtware.New(jwtware.Config{
+		SigningKey: jwtware.SigningKey{Key: []byte("secret")},
+	}))
+
+	beasiswaRouter.Post("/", testimoniHandler.Create)
 }

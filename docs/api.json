@@ -171,7 +171,9 @@
                 }
             },
             "get": {
-                "tags": ["beasiswa"],
+                "tags": [
+                    "beasiswa"
+                ],
                 "summary": "ambil banyak beasiswa",
                 "responses": {
                     "200": {
@@ -203,6 +205,44 @@
                             "text/plain": {
                                 "schema": {
                                     "$ref": "#/components/schemas/beasiswa"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/testimoni": {
+            "post": {
+                "summary": "user melakukan testimoni",
+                "tags": [
+                    "testimoni"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "isi": {
+                                        "type": "string"
+                                    },
+                                    "id_beasiswa": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "berhasil melakukan testimoni",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Berhasil melakukan testimoni"
                                 }
                             }
                         }
