@@ -249,6 +249,26 @@
                     }
                 }
             }
+        },
+        "/v1/testimoni/beasiswa/{id_beasiswa}": {
+            "get": {
+                "summary": "mengambil testimoni dari beasiswa",
+                "tags": [
+                    "testimoni"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "berhasil mengambil testimoni beasiswa",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {

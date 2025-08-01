@@ -3,6 +3,7 @@ package usecase
 import (
 	"errors"
 	"gensmart/config"
+	"gensmart/internal/domain"
 	userDomain "gensmart/internal/domain/user"
 	"gensmart/pkg"
 	"slices"
@@ -15,7 +16,7 @@ import (
 type UserUsecase interface {
 	Register(req *userDomain.UserRegisterRequest) (err error)
 	Login(req *userDomain.UserLoginRequest) (token string, err error)
-	Data(email string) (user userDomain.Entity, err error)
+	Data(email string) (user domain.Users, err error)
 }
 
 func NewUserUsecase(db *gorm.DB, validate *validator.Validate) UserUsecase {
@@ -33,7 +34,7 @@ func (uc *userUsecaseImpl) Register(req *userDomain.UserRegisterRequest) (err er
 	}
 
 	var countUser int64
-	if err = uc.db.Model(&userDomain.Entity{}).Where("email = ?", req.Email).Count(&countUser).Error; err != nil {
+	if err = uc.db.Model(&domain.Users{}).Where("email = ?", req.Email).Count(&countUser).Error; err != nil {
 		return
 	} else if countUser > 0 {
 		return fiber.NewError(403, "email sudah terpakai, mohon gunakan email lain")
@@ -48,7 +49,7 @@ func (uc *userUsecaseImpl) Register(req *userDomain.UserRegisterRequest) (err er
 		return fiber.NewError(403, "Terjadi kesalahan saat memproses password")
 	}
 
-	if err = uc.db.Create(&userDomain.Entity{
+	if err = uc.db.Create(&domain.Users{
 		Name:     req.Name,
 		Email:    req.Email,
 		Role:     req.Role,
@@ -65,7 +66,7 @@ func (uc *userUsecaseImpl) Login(req *userDomain.UserLoginRequest) (token string
 		return
 	}
 
-	var user userDomain.Entity
+	var user domain.Users
 	if err = uc.db.Where("email = ?", req.Email).Take(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			err = fiber.NewError(401, "email tidak terdaftar")
@@ -83,7 +84,7 @@ func (uc *userUsecaseImpl) Login(req *userDomain.UserLoginRequest) (token string
 	return
 }
 
-func (uc *userUsecaseImpl) Data(email string) (user userDomain.Entity, err error) {
+func (uc *userUsecaseImpl) Data(email string) (user domain.Users, err error) {
 	if err = uc.db.Where("email = ?", email).Take(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			err = fiber.NewError(404, "data tidak ditemukan")

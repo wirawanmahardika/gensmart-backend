@@ -1,7 +1,7 @@
 package api
 
 import (
-	beasiswaDomain "gensmart/internal/domain/beasiswa"
+	"gensmart/internal/delivery/dto"
 	"gensmart/internal/usecase"
 
 	"github.com/gofiber/fiber/v2"
@@ -22,7 +22,7 @@ type BeasiswaHandlerImpl struct {
 }
 
 func (h *BeasiswaHandlerImpl) Create(c *fiber.Ctx) (err error) {
-	req := new(beasiswaDomain.CreateBeasiswaRequest)
+	req := new(dto.CreateBeasiswaRequest)
 	if err = c.BodyParser(req); err != nil {
 		return
 	}

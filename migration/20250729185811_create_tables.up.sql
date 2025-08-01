@@ -23,7 +23,6 @@ CREATE TABLE
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP                             ,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id)                                                                   ,
-    UNIQUE KEY (id_user)                                                               ,
     FOREIGN KEY (id_user) REFERENCES users (id)                                        ,
     FOREIGN KEY (id_beasiswa) REFERENCES beasiswa (id)
   );

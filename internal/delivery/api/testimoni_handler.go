@@ -1,7 +1,7 @@
 package api
 
 import (
-	testimoniDomain "gensmart/internal/domain/testimoni"
+	"gensmart/internal/delivery/dto"
 	"gensmart/internal/usecase"
 	"gensmart/pkg"
 
@@ -10,6 +10,7 @@ import (
 
 type TestimoniHandler interface {
 	Create(c *fiber.Ctx) (err error)
+	GetUsersTestimoniOnBeasiswa(c *fiber.Ctx) (err error)
 }
 
 func NewTestimoniHandler(uc usecase.TestimoniUsecase) TestimoniHandler {
@@ -21,7 +22,7 @@ type testimoniHandlerImpl struct {
 }
 
 func (h *testimoniHandlerImpl) Create(c *fiber.Ctx) (err error) {
-	req := new(testimoniDomain.CreateTestimoniRequest)
+	req := new(dto.CreateTestimoniRequest)
 	if err = c.BodyParser(req); err != nil {
 		return pkg.BodyParserError()
 	}
@@ -33,4 +34,13 @@ func (h *testimoniHandlerImpl) Create(c *fiber.Ctx) (err error) {
 	}
 
 	return c.SendString("Berhasil memberi testimoni")
+}
+
+func (h *testimoniHandlerImpl) GetUsersTestimoniOnBeasiswa(c *fiber.Ctx) (err error) {
+	users, err := h.uc.GetUsersTestimoniOnBeasiswa(c.Params("id"))
+	if err != nil {
+		return
+	}
+
+	return c.JSON(users)
 }

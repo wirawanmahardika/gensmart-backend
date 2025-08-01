@@ -51,4 +51,5 @@ func testimoniRouter(router fiber.Router, db *gorm.DB) {
 	}))
 
 	beasiswaRouter.Post("/", testimoniHandler.Create)
+	beasiswaRouter.Get("/beasiswa/:id", testimoniHandler.GetUsersTestimoniOnBeasiswa)
 }
