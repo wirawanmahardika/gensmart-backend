@@ -138,6 +138,41 @@
                 }
             }
         },
+        "/v1/user/guru-volunteer/{id}/status": {
+            "post": {
+                "summary": "update status verifikasi guru volunteer",
+                "tags": [
+                    "users"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "berhasil login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Berhasil update status verifikasi"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v1/beasiswa": {
             "post": {
                 "summary": "membuat beasiswa",
