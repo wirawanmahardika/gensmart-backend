@@ -22,6 +22,8 @@ func userRouter(router fiber.Router, db *gorm.DB) {
 	userUsecase := usecase.NewUserUsecase(db, pkg.Validate)
 	userHandler := api.NewUserHandler(userUsecase)
 
+	router.Get("/v1/users", userHandler.GetMany)
+
 	userRouter := router.Group("/v1/user")
 	userRouter.Post("/register", userHandler.Register)
 	userRouter.Post("/login", userHandler.Login)

@@ -13,6 +13,7 @@ type UserHandler interface {
 	Login(c *fiber.Ctx) (err error)
 	Data(c *fiber.Ctx) (err error)
 	GuruVolunteerUpdateStatusVerify(c *fiber.Ctx) (err error)
+	GetMany(c *fiber.Ctx) (err error)
 }
 
 func NewUserHandler(uc usecase.UserUsecase) UserHandler {
@@ -75,4 +76,13 @@ func (h *userHandlerImpl) GuruVolunteerUpdateStatusVerify(c *fiber.Ctx) (err err
 	}
 
 	return c.SendString("Berhasil verifikasi guru volunteer")
+}
+
+func (h *userHandlerImpl) GetMany(c *fiber.Ctx) (err error) {
+	users, err := h.uc.GetMany(c.Query("role"))
+	if err != nil {
+		return
+	}
+
+	return c.JSON(users)
 }

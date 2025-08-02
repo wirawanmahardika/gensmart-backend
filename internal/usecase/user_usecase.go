@@ -18,6 +18,7 @@ type UserUsecase interface {
 	Login(req *dto.UserLoginRequest) (token string, err error)
 	Data(email string) (user domain.Users, err error)
 	GuruVolunteerUpdateStatusVerify(req *dto.GuruVolunteerUpdateStatusVerifyRequest) (err error)
+	GetMany(role string) (users []domain.Users, err error)
 }
 
 func NewUserUsecase(db *gorm.DB, validate *validator.Validate) UserUsecase {
@@ -119,4 +120,15 @@ func (uc *userUsecaseImpl) GuruVolunteerUpdateStatusVerify(req *dto.GuruVoluntee
 	}
 
 	return uc.db.Model(&domain.GuruVolunteer{}).Where("id_user = ?", req.IDUser).UpdateColumn("status_verifikasi", req.Status).Error
+}
+
+func (uc *userUsecaseImpl) GetMany(role string) (users []domain.Users, err error) {
+	query := uc.db
+	if role != "" {
+		query = query.Where("role = ?", role)
+	}
+	if err = query.Find(&users).Error; err != nil {
+		return
+	}
+	return
 }

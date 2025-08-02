@@ -5,6 +5,40 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/v1/users": {
+            "get": {
+                "summary": "ambil banyak data user",
+                "tags": [
+                    "users"
+                ],
+                "parameters": [
+                    {
+                        "name": "role",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "example": "guru_volunteer"
+                        },
+                        "description": "role dari user"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "berhasil mengambil banyak user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/user"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v1/user": {
             "get": {
                 "summary": "ambil data user",
