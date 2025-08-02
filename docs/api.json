@@ -304,6 +304,41 @@
                     }
                 }
             }
+        },
+        "/v1/testimoni/beasiswa/{id_beasiswa}/update-status": {
+            "patch": {
+                "summary": "mengambil testimoni dari beasiswa",
+                "tags": [
+                    "testimoni"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "berhasil mengambil testimoni beasiswa",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Berhasil mengupdate status testimoni beasiswa"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {

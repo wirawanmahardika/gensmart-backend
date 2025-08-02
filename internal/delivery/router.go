@@ -2,6 +2,7 @@ package delivery
 
 import (
 	"gensmart/internal/delivery/api"
+	"gensmart/internal/delivery/middleware"
 	"gensmart/internal/usecase"
 	"gensmart/pkg"
 
@@ -52,4 +53,5 @@ func testimoniRouter(router fiber.Router, db *gorm.DB) {
 
 	beasiswaRouter.Post("/", testimoniHandler.Create)
 	beasiswaRouter.Get("/beasiswa/:id", testimoniHandler.GetUsersTestimoniOnBeasiswa)
+	beasiswaRouter.Patch("/beasiswa/:id/update-status", middleware.RoleAuth("admin"), testimoniHandler.UpdateStatusTestimoni)
 }

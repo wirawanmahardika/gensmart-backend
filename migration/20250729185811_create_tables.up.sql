@@ -4,7 +4,7 @@ CREATE TABLE
     -- id_sekolah CHAR(46)                                                                ,
     `name` VARCHAR(101) NOT NULL                                                          ,
     email VARCHAR(70) NOT NULL                                                            ,
-    `role` ENUM("user", "guru_volunteer", "admin_sekolah") NOT NULL                       ,
+    `role` ENUM("user", "guru_volunteer", "admin_sekolah", "admin") NOT NULL                       ,
     `password` VARCHAR(100) NOT NULL                                                      ,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP                                ,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP   ,

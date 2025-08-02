@@ -77,7 +77,7 @@ func (uc *userUsecaseImpl) Login(req *dto.UserLoginRequest) (token string, err e
 		return
 	}
 
-	token, err = pkg.CreateJWTToken(user.ID, user.Email)
+	token, err = pkg.CreateJWTToken(user.ID, user.Role)
 	if err != nil {
 		return
 	}

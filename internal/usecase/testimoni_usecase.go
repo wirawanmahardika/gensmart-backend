@@ -12,6 +12,7 @@ import (
 type TestimoniUsecase interface {
 	Create(req *dto.CreateTestimoniRequest) (err error)
 	GetUsersTestimoniOnBeasiswa(id string) (users []domain.Users, err error)
+	UpdateStatusTestimoni(req *dto.UpdateStatusTestimoniRequest) (err error)
 }
 
 func NewTestimoniUsecase(db *gorm.DB, validate *validator.Validate) TestimoniUsecase {
@@ -53,4 +54,14 @@ func (uc *testimoniUsecaseImpl) GetUsersTestimoniOnBeasiswa(id string) (users []
 		return
 	}
 	return
+}
+
+func (uc *testimoniUsecaseImpl) UpdateStatusTestimoni(req *dto.UpdateStatusTestimoniRequest) (err error) {
+	var countTestimoni int64
+	if err = uc.db.Model(&domain.Testimoni{}).Where("id = ?", req.IDTestimoni).Count(&countTestimoni).Error; err != nil {
+		return
+	} else if countTestimoni == 0 {
+		return fiber.NewError(404, "Testimoni yang ingin diupdate statusnya tidak ditemukan")
+	}
+	return uc.db.Model(&domain.Testimoni{}).Where("id = ?", req.IDTestimoni).UpdateColumn("status_moderasi", req.Status).Error
 }

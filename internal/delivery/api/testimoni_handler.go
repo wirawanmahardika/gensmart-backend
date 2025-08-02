@@ -11,6 +11,7 @@ import (
 type TestimoniHandler interface {
 	Create(c *fiber.Ctx) (err error)
 	GetUsersTestimoniOnBeasiswa(c *fiber.Ctx) (err error)
+	UpdateStatusTestimoni(c *fiber.Ctx) (err error)
 }
 
 func NewTestimoniHandler(uc usecase.TestimoniUsecase) TestimoniHandler {
@@ -43,4 +44,17 @@ func (h *testimoniHandlerImpl) GetUsersTestimoniOnBeasiswa(c *fiber.Ctx) (err er
 	}
 
 	return c.JSON(users)
+}
+func (h *testimoniHandlerImpl) UpdateStatusTestimoni(c *fiber.Ctx) (err error) {
+	req := new(dto.UpdateStatusTestimoniRequest)
+	if err = c.BodyParser(req); err != nil {
+		return
+	}
+
+	req.IDTestimoni = c.Params("id")
+	if err = h.uc.UpdateStatusTestimoni(req); err != nil {
+		return
+	}
+
+	return c.SendString("Berhasil mengubah status testimoni")
 }
