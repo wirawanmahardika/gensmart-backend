@@ -10,6 +10,7 @@ import (
 
 type SekolahHandler interface {
 	Create(c *fiber.Ctx) (err error)
+	VerifikasiSekolah(c *fiber.Ctx) (err error)
 }
 
 func NewSekolahHandler(uc usecase.SekolahUsecase) SekolahHandler {

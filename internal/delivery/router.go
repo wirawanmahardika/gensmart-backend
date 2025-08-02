@@ -68,4 +68,5 @@ func sekolahRouter(router fiber.Router, db *gorm.DB) {
 	}))
 
 	sekolahRouter.Post("/", sekolahHandler.Create)
+	sekolahRouter.Patch("/:id", sekolahHandler.VerifikasiSekolah)
 }

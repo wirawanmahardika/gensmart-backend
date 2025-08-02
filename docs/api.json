@@ -382,6 +382,79 @@
                     }
                 }
             }
+        },
+        "/v1/sekolah": {
+            "post": {
+                "summary": "membuat sekolah",
+                "tags": [
+                    "sekolah"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nama": {
+                                        "type": "string"
+                                    },
+                                    "alamat": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "berhasil membuat sekolah",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Berhasil mendaftarkan sekolah"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/sekolah/{id_sekolah}": {
+            "patch": {
+                "summary": "update status verifikasi",
+                "tags": [
+                    "sekolah"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "boolean"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "berhasil update status verifikasi sekolah",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "berhasil update status verifikasi sekolah"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
