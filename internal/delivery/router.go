@@ -30,6 +30,7 @@ func userRouter(router fiber.Router, db *gorm.DB) {
 	}))
 
 	userRouter.Get("/", userHandler.Data)
+	userRouter.Patch("/guru-volunteer/:id/status", middleware.RoleAuth("admin"), userHandler.GuruVolunteerUpdateStatusVerify)
 }
 
 func beasiswaRouter(router fiber.Router, db *gorm.DB) {
@@ -46,12 +47,12 @@ func testimoniRouter(router fiber.Router, db *gorm.DB) {
 	testimoniUsecase := usecase.NewTestimoniUsecase(db, pkg.Validate)
 	testimoniHandler := api.NewTestimoniHandler(testimoniUsecase)
 
-	beasiswaRouter := router.Group("/v1/testimoni")
-	beasiswaRouter.Use(jwtware.New(jwtware.Config{
+	testimoniRouter := router.Group("/v1/testimoni")
+	testimoniRouter.Use(jwtware.New(jwtware.Config{
 		SigningKey: jwtware.SigningKey{Key: []byte("secret")},
 	}))
 
-	beasiswaRouter.Post("/", testimoniHandler.Create)
-	beasiswaRouter.Get("/beasiswa/:id", testimoniHandler.GetUsersTestimoniOnBeasiswa)
-	beasiswaRouter.Patch("/beasiswa/:id/update-status", middleware.RoleAuth("admin"), testimoniHandler.UpdateStatusTestimoni)
+	testimoniRouter.Post("/", testimoniHandler.Create)
+	testimoniRouter.Get("/beasiswa/:id", testimoniHandler.GetUsersTestimoniOnBeasiswa)
+	testimoniRouter.Patch("/beasiswa/:id/status", middleware.RoleAuth("admin"), testimoniHandler.UpdateStatusTestimoni)
 }

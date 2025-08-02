@@ -14,3 +14,8 @@ type UserLoginRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
+
+type GuruVolunteerUpdateStatusVerifyRequest struct {
+	IDUser string
+	Status string `json:"status"`
+}

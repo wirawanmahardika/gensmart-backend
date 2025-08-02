@@ -17,6 +17,7 @@ type UserUsecase interface {
 	Register(req *dto.UserRegisterRequest) (err error)
 	Login(req *dto.UserLoginRequest) (token string, err error)
 	Data(email string) (user domain.Users, err error)
+	GuruVolunteerUpdateStatusVerify(req *dto.GuruVolunteerUpdateStatusVerifyRequest) (err error)
 }
 
 func NewUserUsecase(db *gorm.DB, validate *validator.Validate) UserUsecase {
@@ -93,13 +94,22 @@ func (uc *userUsecaseImpl) Login(req *dto.UserLoginRequest) (token string, err e
 }
 
 func (uc *userUsecaseImpl) Data(id string) (user domain.Users, err error) {
-	if err = uc.db.Where("id = ?", id).Take(&user).Error; err != nil {
+	if err = uc.db.Preload("GuruVolunteer").Where("id = ?", id).Take(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			err = fiber.NewError(404, "data tidak ditemukan")
 		}
 		return
 	}
-
-	user.Password = ""
 	return
+}
+
+func (uc *userUsecaseImpl) GuruVolunteerUpdateStatusVerify(req *dto.GuruVolunteerUpdateStatusVerifyRequest) (err error) {
+	var countUser int64
+	if err = uc.db.Model(&domain.Users{}).Where("id = ? AND role = ?", req.IDUser, "guru_volunteer").Count(&countUser).Error; err != nil {
+		return
+	} else if countUser == 0 {
+		return fiber.NewError(401, "guru volunteer yang dimaksud, tidak ditemukan")
+	}
+
+	return uc.db.Model(&domain.GuruVolunteer{}).Where("id_user = ?", req.IDUser).UpdateColumn("status_verifikasi", req.Status).Error
 }

@@ -12,6 +12,7 @@ type UserHandler interface {
 	Register(c *fiber.Ctx) (err error)
 	Login(c *fiber.Ctx) (err error)
 	Data(c *fiber.Ctx) (err error)
+	GuruVolunteerUpdateStatusVerify(c *fiber.Ctx) (err error)
 }
 
 func NewUserHandler(uc usecase.UserUsecase) UserHandler {
@@ -60,4 +61,18 @@ func (h *userHandlerImpl) Data(c *fiber.Ctx) (err error) {
 	}
 
 	return c.JSON(user)
+}
+
+func (h *userHandlerImpl) GuruVolunteerUpdateStatusVerify(c *fiber.Ctx) (err error) {
+	req := new(dto.GuruVolunteerUpdateStatusVerifyRequest)
+	if err = c.BodyParser(req); err != nil {
+		return pkg.BodyParserError()
+	}
+
+	req.IDUser = c.Params("id")
+	if err = h.uc.GuruVolunteerUpdateStatusVerify(req); err != nil {
+		return
+	}
+
+	return c.SendString("Berhasil verifikasi guru volunteer")
 }
