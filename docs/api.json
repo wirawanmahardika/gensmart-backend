@@ -474,7 +474,7 @@
                                     "jenis": {
                                         "type": "string"
                                     },
-                                    "jumlah": {
+                                    "target": {
                                         "type": "string"
                                     }
                                 }
@@ -490,6 +490,79 @@
                                 "schema": {
                                     "type": "string",
                                     "example": "Berhasil mengajukan permintaan donasi"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/donasi/user": {
+            "post": {
+                "summary": "user melakukan donasi",
+                "tags": [
+                    "donasi"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id_donasi": {
+                                        "type": "string"
+                                    },
+                                    "jumlah": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Berhasil melakukan donasi",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Berhasil melakukan donasi"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/donasi/{id_donasi_user}/verify": {
+            "patch": {
+                "summary": "admin verifikasi donasi",
+                "tags": [
+                    "donasi"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "status": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Berhasil verfikasi donasi",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Berhasil verifikasi donasi"
                                 }
                             }
                         }
