@@ -85,14 +85,17 @@ CREATE TABLE
     FOREIGN KEY (id_user) REFERENCES users (id)
   );
 
--- CREATE TABLE
---   testimoni (
---     id CHAR(36) NOT NULL                                                               ,
---     id_user CHAR(36)                                                                   ,
---     tipe CHAR(36)                                                                      ,
---     isi VARCHAR(101) NOT NULL                                                          ,
---     status_moderasi TEXT NOT NULL                                                      ,
---     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP                             ,
---     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
---     PRIMARY KEY (id)                                                                   ,
---   );
+CREATE TABLE
+  donasi (
+    id CHAR(36) NOT NULL                                                                  ,
+    id_sekolah CHAR(36) NOT NULL                                                          ,
+    jenis ENUM("uang", "barang") NOT NULL                                                 ,
+    jumlah INT UNSIGNED NOT NULL                                                          ,
+    `status` ENUM("pending", "verified", "distributed") DEFAULT "pending"                 ,
+    progress DECIMAL(5, 2) NOT NULL                                                       ,
+    -- deskripsi TEXT                                                                     ,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP                                ,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP   ,
+    PRIMARY KEY (id)                                                                      ,
+    FOREIGN KEY (id_sekolah) REFERENCES sekolah (id)
+  );

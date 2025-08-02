@@ -16,6 +16,7 @@ func Router(router *fiber.App, db *gorm.DB) {
 	beasiswaRouter(router, db)
 	testimoniRouter(router, db)
 	sekolahRouter(router, db)
+	donasiRouter(router, db)
 }
 
 func userRouter(router fiber.Router, db *gorm.DB) {
@@ -69,4 +70,16 @@ func sekolahRouter(router fiber.Router, db *gorm.DB) {
 
 	sekolahRouter.Post("/", sekolahHandler.Create)
 	sekolahRouter.Patch("/:id", sekolahHandler.VerifikasiSekolah)
+}
+
+func donasiRouter(router fiber.Router, db *gorm.DB) {
+	donasiUsecase := usecase.NewDonasiUsecase(db, pkg.Validate)
+	donasiHandler := api.NewDonasiHandler(donasiUsecase)
+
+	donasiRouter := router.Group("/v1/donasi")
+	donasiRouter.Use(jwtware.New(jwtware.Config{
+		SigningKey: jwtware.SigningKey{Key: []byte("secret")},
+	}))
+
+	donasiRouter.Post("/", donasiHandler.Create)
 }

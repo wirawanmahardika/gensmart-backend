@@ -455,6 +455,47 @@
                     }
                 }
             }
+        },
+        "/v1/donasi": {
+            "post": {
+                "summary": "membuat permintaan donasi",
+                "tags": [
+                    "donasi"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id_sekolah": {
+                                        "type": "string"
+                                    },
+                                    "jenis": {
+                                        "type": "string"
+                                    },
+                                    "jumlah": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengajukan permintaan donasi",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Berhasil mengajukan permintaan donasi"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
