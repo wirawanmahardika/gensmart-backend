@@ -12,3 +12,8 @@ type UserDonateRequest struct {
 	IDDonasi string `json:"id_donasi"`
 	Jumlah   int    `json:"jumlah"`
 }
+
+type VerifyUserDonateRequest struct {
+	IDDonateUser string
+	Status       string `json:"status"`
+}

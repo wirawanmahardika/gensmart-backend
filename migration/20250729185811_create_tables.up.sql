@@ -95,7 +95,7 @@ CREATE TABLE
     id_donasi CHAR(36) NOT NULL                                                        ,
     id_user CHAR(36) NOT NULL                                                          ,
     jumlah INT NOT NULL                                                                ,
-    `status` ENUM("pending", "verified") NOT NULL DEFAULT "pending"                    ,
+    `status` ENUM("pending", "verified", "rejected") NOT NULL DEFAULT "pending"        ,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP                             ,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id)                                                                   ,

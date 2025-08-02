@@ -69,7 +69,7 @@ func sekolahRouter(router fiber.Router, db *gorm.DB) {
 	}))
 
 	sekolahRouter.Post("/", sekolahHandler.Create)
-	sekolahRouter.Patch("/:id", sekolahHandler.VerifikasiSekolah)
+	sekolahRouter.Patch("/:id", middleware.RoleAuth("admin"), sekolahHandler.VerifikasiSekolah)
 }
 
 func donasiRouter(router fiber.Router, db *gorm.DB) {
@@ -83,4 +83,5 @@ func donasiRouter(router fiber.Router, db *gorm.DB) {
 
 	donasiRouter.Post("/", donasiHandler.Create)
 	donasiRouter.Post("/user", donasiHandler.UserDonate)
+	donasiRouter.Patch("/:id/verify", middleware.RoleAuth("admin"), donasiHandler.VerifyUserDonate)
 }

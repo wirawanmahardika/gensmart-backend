@@ -1,8 +1,10 @@
 package usecase
 
 import (
+	"errors"
 	"gensmart/internal/delivery/dto"
 	"gensmart/internal/domain"
+	"gensmart/pkg"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -12,6 +14,7 @@ import (
 type DonasiUsecase interface {
 	Create(req *dto.CreateDonasiRequest) (err error)
 	UserDonate(req *dto.UserDonateRequest) (err error)
+	VerifyUserDonate(req *dto.VerifyUserDonateRequest) (err error)
 }
 
 func NewDonasiUsecase(db *gorm.DB, validate *validator.Validate) DonasiUsecase {
@@ -61,23 +64,38 @@ func (uc *donasiUsecaseImpl) UserDonate(req *dto.UserDonateRequest) (err error) 
 	}).Error
 }
 
-// func (uc *donasiUsecaseImpl) VerifyUserDonate(req *dto.UserDonateRequest) (err error) {
-// 	if err = uc.validate.Struct(req); err != nil {
-// 		return
-// 	}
+func (uc *donasiUsecaseImpl) VerifyUserDonate(req *dto.VerifyUserDonateRequest) (err error) {
+	if err = uc.validate.Struct(req); err != nil {
+		return
+	}
 
-// 	var donasi domain.Donasi
-// 	if err = uc.db.Model(&domain.Donasi{}).Where("id = ?", req.IDDonasi).Take(&donasi).Error; err != nil {
-// 		return
-// 	}
+	return uc.db.Transaction(func(tx *gorm.DB) (err error) {
+		var donasiUser domain.DonasiUser
+		if err = tx.Take(&donasiUser, "id = ?", req.IDDonateUser).Error; err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return fiber.NewError(404, "donasi dari user yang dimaksud tidak ditemukan")
+			}
+			return
+		} else if donasiUser.Status != "pending" {
+			return fiber.NewError(403, "donasi sudah terverikasi")
+		} else if err = tx.Model(&domain.DonasiUser{}).Where("id = ?", req.IDDonateUser).UpdateColumn("status", req.Status).Error; err != nil {
+			return
+		} else if req.Status != "verified" {
+			return
+		}
 
-// 	return uc.db.Transaction(func(tx *gorm.DB) (err error) {
-// 		donasi.Jumlah += req.Jumlah
-// 		donasi.Progress = pkg.RoundToTwoDecimal(float64(donasi.Jumlah / donasi.Target))
+		var donasi domain.Donasi
+		if err = tx.Take(&donasi, "id = ?", donasiUser.IDDonasi).Error; err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return fiber.NewError(404, "donasi tidak ditemukan")
+			}
+			return
+		} else if donasi.Progress >= 100 {
+			return fiber.NewError(403, "donasi sudah mencapai target")
+		}
 
-// 		if err = tx.Create(&domain.DonasiUser{IDDonasi: req.IDDonasi, IDUser: req.IDUser, Jumlah: req.Jumlah, Status: "pending"}).Error; err != nil {
-// 			return
-// 		}
-// 		return
-// 	})
-// }
+		donasi.Jumlah += donasiUser.Jumlah
+		donasi.Progress = pkg.RoundToTwoDecimal(float64(donasi.Jumlah) / float64(donasi.Target))
+		return tx.Select("jumlah", "progress").Updates(donasi).Error
+	})
+}
