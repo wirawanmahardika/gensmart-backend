@@ -16,8 +16,9 @@ type Users struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 
-	Beasiswa  []Beasiswa `json:"beasiswa,omitempty" gorm:"many2many:testimoni;foreignKey:ID;joinForeignKey:IDuser;references:ID;joinReferences:IDBeasiswa;"`
-	Testimoni *Testimoni `json:"testimoni" gorm:"foreignKey:IDUser;references:ID;"`
+	GuruVolunteer *GuruVolunteer `json:"guru_volunteer,omitempty" gorm:"foreignKey:IDUser;references:ID"`
+	Beasiswa      []Beasiswa     `json:"beasiswa,omitempty" gorm:"many2many:testimoni;foreignKey:ID;joinForeignKey:IDuser;references:ID;joinReferences:IDBeasiswa;"`
+	Testimoni     *Testimoni     `json:"testimoni" gorm:"foreignKey:IDUser;references:ID;"`
 }
 
 func (e *Users) TableName() string { return "users" }

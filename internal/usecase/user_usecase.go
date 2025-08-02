@@ -49,15 +49,23 @@ func (uc *userUsecaseImpl) Register(req *dto.UserRegisterRequest) (err error) {
 		return fiber.NewError(403, "Terjadi kesalahan saat memproses password")
 	}
 
-	if err = uc.db.Create(&domain.Users{
+	var user = &domain.Users{
 		Name:     req.Name,
 		Email:    req.Email,
 		Role:     req.Role,
 		Password: hashedPassword,
-	}).Error; err != nil {
-		return
+	}
+	if req.Role == "guru_volunteer" {
+		user.GuruVolunteer = &domain.GuruVolunteer{
+			Biodata:          req.Biodata,
+			SertifikatUrl:    req.SertifikaURL,
+			StatusVerifikasi: "pending",
+		}
 	}
 
+	if err = uc.db.Create(&user).Error; err != nil {
+		return
+	}
 	return
 }
 

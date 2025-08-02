@@ -60,6 +60,14 @@
                                     },
                                     "password": {
                                         "type": "string"
+                                    },
+                                    "sertifikat_url": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "biodata": {
+                                        "type": "string",
+                                        "nullable": true
                                     }
                                 }
                             }
