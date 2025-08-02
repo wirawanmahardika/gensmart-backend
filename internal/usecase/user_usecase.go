@@ -56,11 +56,18 @@ func (uc *userUsecaseImpl) Register(req *dto.UserRegisterRequest) (err error) {
 		Role:     req.Role,
 		Password: hashedPassword,
 	}
-	if req.Role == "guru_volunteer" {
+	switch req.Role {
+	case "guru_volunteer":
 		user.GuruVolunteer = &domain.GuruVolunteer{
 			Biodata:          req.Biodata,
 			SertifikatUrl:    req.SertifikaURL,
 			StatusVerifikasi: "pending",
+		}
+	case "admin_sekolah":
+		user.Sekolah = &domain.Sekolah{
+			Nama:             req.NamaSekolah,
+			Alamat:           req.AlamatSekolah,
+			StatusVerifikasi: false,
 		}
 	}
 

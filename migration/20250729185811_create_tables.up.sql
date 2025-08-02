@@ -73,6 +73,7 @@ CREATE TABLE
 CREATE TABLE
   sekolah (
     id CHAR(36) NOT NULL                                                               ,
+    id_user CHAR(36) NOT NULL                                                          ,
     `nama` VARCHAR(101) NOT NULL                                                       ,
     alamat TEXT NOT NULL                                                               ,
     status_verifikasi BOOLEAN DEFAULT FALSE                                            ,
@@ -80,7 +81,8 @@ CREATE TABLE
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP                             ,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id)                                                                   ,
-    UNIQUE KEY (email)
+    UNIQUE KEY (email, id_user)                                                        ,
+    FOREIGN KEY (id_user) REFERENCES users (id)
   );
 
 -- CREATE TABLE

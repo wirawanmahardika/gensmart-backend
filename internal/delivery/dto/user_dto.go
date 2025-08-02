@@ -6,8 +6,13 @@ type UserRegisterRequest struct {
 	Role     string `json:"role"`
 	Password string `json:"password"`
 
+	// data untuk guru volunteer
 	Biodata      string `json:"biodata"`
 	SertifikaURL string `json:"sertifikat_url"`
+
+	// data untuk admin sekolah
+	NamaSekolah   string `json:"nama_sekolah"`
+	AlamatSekolah string `json:"alamat_sekolah"`
 }
 
 type UserLoginRequest struct {
