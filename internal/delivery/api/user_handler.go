@@ -53,8 +53,8 @@ func (h *userHandlerImpl) Login(c *fiber.Ctx) (err error) {
 }
 
 func (h *userHandlerImpl) Data(c *fiber.Ctx) (err error) {
-	_, email := pkg.GetDataFromToken(c)
-	user, err := h.uc.Data(email)
+	id, _ := pkg.GetDataFromToken(c)
+	user, err := h.uc.Data(id)
 	if err != nil {
 		return
 	}

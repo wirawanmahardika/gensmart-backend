@@ -84,8 +84,8 @@ func (uc *userUsecaseImpl) Login(req *dto.UserLoginRequest) (token string, err e
 	return
 }
 
-func (uc *userUsecaseImpl) Data(email string) (user domain.Users, err error) {
-	if err = uc.db.Where("email = ?", email).Take(&user).Error; err != nil {
+func (uc *userUsecaseImpl) Data(id string) (user domain.Users, err error) {
+	if err = uc.db.Where("id = ?", id).Take(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			err = fiber.NewError(404, "data tidak ditemukan")
 		}
