@@ -6,7 +6,6 @@ import (
 	"gensmart/internal/usecase"
 	"gensmart/pkg"
 
-	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
@@ -27,9 +26,7 @@ func userRouter(router fiber.Router, db *gorm.DB) {
 	userRouter.Post("/register", userHandler.Register)
 	userRouter.Post("/login", userHandler.Login)
 
-	userRouter.Use(jwtware.New(jwtware.Config{
-		SigningKey: jwtware.SigningKey{Key: []byte("secret")},
-	}))
+	userRouter.Use(middleware.JwtAuth())
 
 	userRouter.Get("/", userHandler.Data)
 	userRouter.Patch("/guru-volunteer/:id/status", middleware.RoleAuth("admin"), userHandler.GuruVolunteerUpdateStatusVerify)
@@ -40,9 +37,11 @@ func beasiswaRouter(router fiber.Router, db *gorm.DB) {
 	beasiswaHandler := api.NewBeasiswaHandler(beasiswaUsecase)
 
 	beasiswaRouter := router.Group("/v1/beasiswa")
-	beasiswaRouter.Post("/", beasiswaHandler.Create)
 	beasiswaRouter.Get("/:id", beasiswaHandler.GetOne)
 	beasiswaRouter.Get("/", beasiswaHandler.GetMany)
+
+	beasiswaRouter.Use(middleware.JwtAuth())
+	beasiswaRouter.Post("/", beasiswaHandler.Create)
 }
 
 func testimoniRouter(router fiber.Router, db *gorm.DB) {
@@ -50,9 +49,7 @@ func testimoniRouter(router fiber.Router, db *gorm.DB) {
 	testimoniHandler := api.NewTestimoniHandler(testimoniUsecase)
 
 	testimoniRouter := router.Group("/v1/testimoni")
-	testimoniRouter.Use(jwtware.New(jwtware.Config{
-		SigningKey: jwtware.SigningKey{Key: []byte("secret")},
-	}))
+	testimoniRouter.Use(middleware.JwtAuth())
 
 	testimoniRouter.Post("/", testimoniHandler.Create)
 	testimoniRouter.Get("/beasiswa/:id", testimoniHandler.GetUsersTestimoniOnBeasiswa)
@@ -64,9 +61,7 @@ func sekolahRouter(router fiber.Router, db *gorm.DB) {
 	sekolahHandler := api.NewSekolahHandler(sekolahUsecase)
 
 	sekolahRouter := router.Group("/v1/sekolah")
-	sekolahRouter.Use(jwtware.New(jwtware.Config{
-		SigningKey: jwtware.SigningKey{Key: []byte("secret")},
-	}))
+	sekolahRouter.Use(middleware.JwtAuth())
 
 	sekolahRouter.Post("/", sekolahHandler.Create)
 	sekolahRouter.Patch("/:id", middleware.RoleAuth("admin"), sekolahHandler.VerifikasiSekolah)
@@ -77,9 +72,7 @@ func donasiRouter(router fiber.Router, db *gorm.DB) {
 	donasiHandler := api.NewDonasiHandler(donasiUsecase)
 
 	donasiRouter := router.Group("/v1/donasi")
-	donasiRouter.Use(jwtware.New(jwtware.Config{
-		SigningKey: jwtware.SigningKey{Key: []byte("secret")},
-	}))
+	donasiRouter.Use(middleware.JwtAuth())
 
 	donasiRouter.Post("/", donasiHandler.Create)
 	donasiRouter.Post("/user", donasiHandler.UserDonate)
