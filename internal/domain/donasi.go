@@ -12,6 +12,7 @@ type Donasi struct {
 	IDSekolah string    `json:"id_sekolah"`
 	Jenis     string    `json:"jenis"`
 	Jumlah    int       `json:"jumlah"`
+	Target    int       `json:"target"`
 	Status    string    `json:"status"`
 	Progress  float64   `json:"progress"`
 	CreatedAt time.Time `json:"created_at"`

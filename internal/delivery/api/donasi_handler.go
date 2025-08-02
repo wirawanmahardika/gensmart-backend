@@ -10,6 +10,7 @@ import (
 
 type DonasiHandler interface {
 	Create(c *fiber.Ctx) (err error)
+	UserDonate(c *fiber.Ctx) (err error)
 }
 
 func NewDonasiHandler(uc usecase.DonasiUsecase) DonasiHandler {
@@ -32,4 +33,18 @@ func (h *donasiHandlerImpl) Create(c *fiber.Ctx) (err error) {
 	}
 
 	return c.SendString("Berhasil mengajukan permintaan donasi")
+}
+
+func (h *donasiHandlerImpl) UserDonate(c *fiber.Ctx) (err error) {
+	req := new(dto.UserDonateRequest)
+	if err = c.BodyParser(req); err != nil {
+		return pkg.BodyParserError()
+	}
+
+	req.IDUser, _ = pkg.GetDataFromToken(c)
+	if err = h.uc.UserDonate(req); err != nil {
+		return
+	}
+
+	return c.SendString("Berhasil melakukan donasi, silahkan tunggu verifikasi")
 }

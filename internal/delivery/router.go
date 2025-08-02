@@ -82,4 +82,5 @@ func donasiRouter(router fiber.Router, db *gorm.DB) {
 	}))
 
 	donasiRouter.Post("/", donasiHandler.Create)
+	donasiRouter.Post("/user", donasiHandler.UserDonate)
 }

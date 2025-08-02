@@ -59,18 +59,6 @@ CREATE TABLE
   );
 
 CREATE TABLE
-  donasi (
-    id CHAR(36) NOT NULL                                                               ,
-    jenis ENUM(uang, barang) NOT NULL                                                  ,
-    jumlah INT UNSIGNED NOT NULL                                                       ,
-    `status` ENUM(pending, verified, `distributed`)                                    ,
-    progres TINYINT UNSIGNED NOT NULL DEFAULT 0                                        ,
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP                             ,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)                                                                   ,
-  );
-
-CREATE TABLE
   sekolah (
     id CHAR(36) NOT NULL                                                               ,
     id_user CHAR(36) NOT NULL                                                          ,
@@ -90,7 +78,8 @@ CREATE TABLE
     id CHAR(36) NOT NULL                                                                  ,
     id_sekolah CHAR(36) NOT NULL                                                          ,
     jenis ENUM("uang", "barang") NOT NULL                                                 ,
-    jumlah INT UNSIGNED NOT NULL                                                          ,
+    jumlah INT UNSIGNED NOT NULL DEFAULT 0                                                ,
+    `target` INT UNSIGNED NOT NULL                                                        ,
     `status` ENUM("pending", "verified", "distributed") DEFAULT "pending"                 ,
     progress DECIMAL(5, 2) NOT NULL                                                       ,
     -- deskripsi TEXT                                                                     ,
@@ -98,4 +87,18 @@ CREATE TABLE
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP   ,
     PRIMARY KEY (id)                                                                      ,
     FOREIGN KEY (id_sekolah) REFERENCES sekolah (id)
+  );
+
+CREATE TABLE
+  donasi_user (
+    id CHAR(36) NOT NULL                                                               ,
+    id_donasi CHAR(36) NOT NULL                                                        ,
+    id_user CHAR(36) NOT NULL                                                          ,
+    jumlah INT NOT NULL                                                                ,
+    `status` ENUM("pending", "verified") NOT NULL DEFAULT "pending"                    ,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP                             ,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)                                                                   ,
+    FOREIGN KEY (id_donasi) REFERENCES donasi (id)                                     ,
+    FOREIGN KEY (id_user) REFERENCES users (id)
   );
