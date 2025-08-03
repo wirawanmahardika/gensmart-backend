@@ -76,6 +76,7 @@ func donasiRouter(router fiber.Router, db *gorm.DB) {
 	donasiRouter := router.Group("/v1/donasi")
 	donasiRouter.Use(middleware.JwtAuth())
 
+	donasiRouter.Get("/:id", donasiHandler.GetOne)
 	donasiRouter.Post("/", donasiHandler.Create)
 	donasiRouter.Post("/user", donasiHandler.UserDonate)
 	donasiRouter.Patch("/:id/verify", middleware.RoleAuth("admin"), donasiHandler.VerifyUserDonate)

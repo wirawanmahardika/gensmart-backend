@@ -4,7 +4,6 @@ skinparam packageStyle rectangle
 
 actor "User Umum" as User
 actor "Guru Volunteer" as Volunteer
-actor "Donatur" as Donor
 actor "Admin Sekolah" as SchoolAdmin
 actor "Admin" as Admin
 
@@ -14,6 +13,11 @@ rectangle "GenSmart System" {
     usecase UC1 as "Lihat Informasi Beasiswa"
     usecase UC2 as "Akses Modul Terbuka"
     usecase UC3 as "Baca Testimoni Alumni"
+    usecase UC10 as "Kirim Donasi Barang"
+    usecase UC11 as "Kirim Donasi Uang"
+    usecase UC12 as "Lihat Progress Donasi"
+    usecase UC13 as "Beri Testimoni Donasi"
+    usecase UC14 as "Lihat Laporan Donasi"
   }
 
   package "Fitur Guru Volunteer" {
@@ -23,14 +27,6 @@ rectangle "GenSmart System" {
     usecase UC7 as "Lihat Jadwal Penugasan"
     usecase UC8 as "Akses Modul & Pelatihan"
     usecase UC9 as "Unduh Sertifikat Pelatihan"
-  }
-
-  package "Fitur Donatur" {
-    usecase UC10 as "Kirim Donasi Barang"
-    usecase UC11 as "Kirim Donasi Uang"
-    usecase UC12 as "Lihat Progress Donasi"
-    usecase UC13 as "Beri Testimoni Donasi"
-    usecase UC14 as "Lihat Laporan Donasi"
   }
 
   package "Fitur Admin Sekolah" {
@@ -57,6 +53,11 @@ rectangle "GenSmart System" {
 User --> UC1
 User --> UC2
 User --> UC3
+User --> UC10
+User --> UC11
+User --> UC12
+User --> UC13
+User --> UC14
 
 '--- Relasi Guru Volunteer ---
 Volunteer --> UC4
@@ -65,13 +66,6 @@ UC4 --> UC6 : <<extend>>
 Volunteer --> UC7
 Volunteer --> UC8
 Volunteer --> UC9
-
-'--- Relasi Donatur ---
-Donor --> UC10
-Donor --> UC11
-Donor --> UC12
-Donor --> UC13
-Donor --> UC14
 
 '--- Relasi Admin Sekolah ---
 SchoolAdmin --> UC15

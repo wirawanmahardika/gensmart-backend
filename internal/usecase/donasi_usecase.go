@@ -15,6 +15,7 @@ type DonasiUsecase interface {
 	Create(req *dto.CreateDonasiRequest) (err error)
 	UserDonate(req *dto.UserDonateRequest) (err error)
 	VerifyUserDonate(req *dto.VerifyUserDonateRequest) (err error)
+	GetOne(id string) (donasi *domain.Donasi, err error)
 }
 
 func NewDonasiUsecase(db *gorm.DB, validate *validator.Validate) DonasiUsecase {
@@ -52,11 +53,13 @@ func (uc *donasiUsecaseImpl) UserDonate(req *dto.UserDonateRequest) (err error) 
 		return
 	}
 
-	var countDonasi int64
-	if err = uc.db.Model(&domain.Donasi{}).Where("id = ?", req.IDDonasi).Count(&countDonasi).Error; err != nil {
+	var statusDonasi string
+	if err = uc.db.Raw("SELECT status FROM donasi WHERE id = ?", req.IDDonasi).Scan(&statusDonasi).Error; err != nil {
 		return
-	} else if countDonasi == 0 {
-		return fiber.NewError(404, "tidak dapat melakukan donasi, tempat donasi yang dituju tidak tersedia")
+	} else if statusDonasi == "" {
+		return fiber.NewError(404, "donasi yang dituju tidak ditemukan")
+	} else if statusDonasi != "verified" {
+		return fiber.NewError(403, "donasi belum terverifikasi oleh admin, belum bisa berdonasi")
 	}
 
 	return uc.db.Create(&domain.DonasiUser{
@@ -90,6 +93,8 @@ func (uc *donasiUsecaseImpl) VerifyUserDonate(req *dto.VerifyUserDonateRequest) 
 				return fiber.NewError(404, "donasi tidak ditemukan")
 			}
 			return
+		} else if donasi.Status != "verified" {
+			return fiber.NewError(403, "donasi belum terverfikasi")
 		} else if donasi.Progress >= 100 {
 			return fiber.NewError(403, "donasi sudah mencapai target")
 		}
@@ -98,4 +103,14 @@ func (uc *donasiUsecaseImpl) VerifyUserDonate(req *dto.VerifyUserDonateRequest) 
 		donasi.Progress = pkg.RoundToTwoDecimal(float64(donasi.Jumlah) / float64(donasi.Target))
 		return tx.Select("jumlah", "progress").Updates(donasi).Error
 	})
+}
+
+func (uc *donasiUsecaseImpl) GetOne(id string) (donasi *domain.Donasi, err error) {
+	if err = uc.db.Take(&donasi, "id = ?", id).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			err = fiber.NewError(404, "donasi tidak ditemukan")
+		}
+		return
+	}
+	return
 }
