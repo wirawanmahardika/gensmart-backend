@@ -13,6 +13,7 @@ import (
 
 type DonasiUsecase interface {
 	Create(req *dto.CreateDonasiRequest) (err error)
+	VerifyDonate(req *dto.VerifyDonateRequest) (err error)
 	UserDonate(req *dto.UserDonateRequest) (err error)
 	VerifyUserDonate(req *dto.VerifyUserDonateRequest) (err error)
 	GetOne(id string) (donasi *domain.Donasi, err error)
@@ -46,6 +47,17 @@ func (uc *donasiUsecaseImpl) Create(req *dto.CreateDonasiRequest) (err error) {
 		Progress:  0,
 		Status:    "pending",
 	}).Error
+}
+
+func (uc *donasiUsecaseImpl) VerifyDonate(req *dto.VerifyDonateRequest) (err error) {
+	var countDonasi int64
+	if err = uc.db.Model(&domain.Donasi{}).Where("id = ?", req.IDDonate).Count(&countDonasi).Error; err != nil {
+		return
+	} else if countDonasi == 0 {
+		return fiber.NewError(404, "donasi yang ingin diverifikasi tidak ditemukan")
+	}
+
+	return uc.db.Model(&domain.Donasi{}).Where("id = ?", req.IDDonate).UpdateColumn("status", req.Status).Error
 }
 
 func (uc *donasiUsecaseImpl) UserDonate(req *dto.UserDonateRequest) (err error) {

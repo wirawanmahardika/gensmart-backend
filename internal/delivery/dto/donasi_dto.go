@@ -7,6 +7,11 @@ type CreateDonasiRequest struct {
 	Target    int    `json:"target"`
 }
 
+type VerifyDonateRequest struct {
+	IDDonate string
+	Status   string `json:"status"`
+}
+
 type UserDonateRequest struct {
 	IDUser   string
 	IDDonasi string `json:"id_donasi"`

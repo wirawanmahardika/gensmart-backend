@@ -10,6 +10,7 @@ import (
 
 type DonasiHandler interface {
 	Create(c *fiber.Ctx) (err error)
+	VerifyDonate(c *fiber.Ctx) (err error)
 	UserDonate(c *fiber.Ctx) (err error)
 	VerifyUserDonate(c *fiber.Ctx) (err error)
 	GetOne(c *fiber.Ctx) (err error)
@@ -35,6 +36,20 @@ func (h *donasiHandlerImpl) Create(c *fiber.Ctx) (err error) {
 	}
 
 	return c.SendString("Berhasil mengajukan permintaan donasi")
+}
+
+func (h *donasiHandlerImpl) VerifyDonate(c *fiber.Ctx) (err error) {
+	req := new(dto.VerifyDonateRequest)
+	if err = c.BodyParser(req); err != nil {
+		return pkg.BodyParserError()
+	}
+
+	req.IDDonate = c.Params("id")
+	if err = h.uc.VerifyDonate(req); err != nil {
+		return
+	}
+
+	return c.SendString("Berhasil verifikasi donasi")
 }
 
 func (h *donasiHandlerImpl) UserDonate(c *fiber.Ctx) (err error) {
