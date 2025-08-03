@@ -10,40 +10,40 @@ actor "Admin" as Admin
 rectangle "GenSmart System" {
 
   package "Fitur User Umum" {
-    usecase UC1 as "Lihat Informasi Beasiswa"
+    usecase UC1 as "Lihat Informasi Beasiswa (done)"
     usecase UC2 as "Akses Modul Terbuka"
-    usecase UC3 as "Baca Testimoni Alumni Beasiswa"
-    usecase UC10 as "Kirim Donasi Barang"
-    usecase UC11 as "Kirim Donasi Uang"
-    usecase UC12 as "Lihat Progress Donasi"
+    usecase UC3 as "Baca Testimoni Alumni Beasiswa (done)"
+    usecase UC10 as "Kirim Donasi Barang (done)"
+    usecase UC11 as "Kirim Donasi Uang (done)"
+    usecase UC12 as "Lihat Progress Donasi (done)"
     usecase UC13 as "Beri Testimoni Donasi"
     usecase UC14 as "Lihat Laporan Donasi"
   }
 
   package "Fitur Guru Volunteer" {
-    usecase UC4 as "Daftar Sebagai Guru Volunteer"
-    usecase UC5 as "Isi Form Pendaftaran"
-    usecase UC6 as "Lihat Status Verifikasi"
+    usecase UC4 as "Daftar Sebagai Guru Volunteer (done)"
+    usecase UC5 as "Isi Form Pendaftaran (done)"
+    usecase UC6 as "Lihat Status Verifikasi (done)"
     usecase UC7 as "Lihat Jadwal Penugasan"
     usecase UC8 as "Akses Modul & Pelatihan"
     usecase UC9 as "Unduh Sertifikat Pelatihan"
   }
 
   package "Fitur Admin Sekolah" {
-    usecase UC15 as "Buat Akun Sekolah"
-    usecase UC16 as "Login Akun Sekolah"
+    usecase UC15 as "Buat Akun Sekolah (done)"
+    usecase UC16 as "Login Akun Sekolah (done)"
     usecase UC17 as "Kelola Profil Sekolah"
-    usecase UC18 as "Cari Guru Volunteer"
+    usecase UC18 as "Cari Guru Volunteer (done)"
     usecase UC19 as "Setujui Penugasan Guru"
-    usecase UC20 as "Lihat Status Donasi"
+    usecase UC20 as "Lihat Status Donasi (done)"
     usecase UC21 as "Unduh Laporan Donasi"
   }
 
   package "Fitur Admin" {
-    usecase UC22 as "Verifikasi Guru Volunteer"
-    usecase UC23 as "Verifikasi Akun Sekolah"
+    usecase UC22 as "Verifikasi Guru Volunteer (done)"
+    usecase UC23 as "Verifikasi Akun Sekolah (done)"
     usecase UC24 as "Kelola Modul & Pelatihan"
-    usecase UC25 as "Moderasi Testimoni Alumni"
+    usecase UC25 as "Moderasi Testimoni Alumni (done)"
     usecase UC26 as "Monitoring Donasi"
     usecase UC27 as "Buat Laporan Keseluruhan"
   }

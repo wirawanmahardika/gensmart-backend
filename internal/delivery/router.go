@@ -43,7 +43,7 @@ func beasiswaRouter(router fiber.Router, db *gorm.DB) {
 	beasiswaRouter.Get("/", beasiswaHandler.GetMany)
 
 	beasiswaRouter.Use(middleware.JwtAuth())
-	beasiswaRouter.Post("/", beasiswaHandler.Create)
+	beasiswaRouter.Post("/", middleware.RoleAuth("admin"), beasiswaHandler.Create)
 }
 
 func testimoniRouter(router fiber.Router, db *gorm.DB) {
@@ -65,7 +65,7 @@ func sekolahRouter(router fiber.Router, db *gorm.DB) {
 	sekolahRouter := router.Group("/v1/sekolah")
 	sekolahRouter.Use(middleware.JwtAuth())
 
-	sekolahRouter.Post("/", sekolahHandler.Create)
+	sekolahRouter.Post("/", middleware.RoleAuth("admin_sekolah"), sekolahHandler.Create)
 	sekolahRouter.Patch("/:id", middleware.RoleAuth("admin"), sekolahHandler.VerifikasiSekolah)
 }
 
@@ -78,8 +78,8 @@ func donasiRouter(router fiber.Router, db *gorm.DB) {
 
 	donasiRouter.Get("/:id", donasiHandler.GetOne)
 	donasiRouter.Get("/", donasiHandler.GetMany)
-	donasiRouter.Post("/", donasiHandler.Create)
-	donasiRouter.Patch("/:id/verify", donasiHandler.VerifyDonate)
+	donasiRouter.Post("/", middleware.RoleAuth("admin_sekolah"), donasiHandler.Create)
+	donasiRouter.Patch("/:id/verify", middleware.RoleAuth("admin"), donasiHandler.VerifyDonate)
 	donasiRouter.Post("/user", donasiHandler.UserDonate)
 	donasiRouter.Patch("/user/:id/verify", middleware.RoleAuth("admin"), donasiHandler.VerifyUserDonate)
 }

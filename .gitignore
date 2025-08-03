@@ -83,5 +83,6 @@ $RECYCLE.BIN/
 
 
 # my unexpected folder/files
-proposal.md
-selesai.md
+# proposal.md
+# selesai.md
+*.md
