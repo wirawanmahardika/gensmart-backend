@@ -1,0 +1,119 @@
+@startuml "Gensmart System"
+left to right direction
+skinparam rectangle {
+  backgroundColor #FDF6E3
+  borderColor Black
+}
+
+'===================================
+' PAGE 1: Use Case - User Umum
+'===================================
+actor "User Umum" as User
+
+rectangle "GenSmart System" {
+  usecase UC1 as "Lihat Informasi Beasiswa"
+  usecase UC2 as "Akses Modul Terbuka"
+  usecase UC3 as "Baca Testimoni Alumni"
+}
+
+User --> UC1
+User --> UC2
+User --> UC3
+
+newpage
+left to right direction
+
+'===================================
+' PAGE 2: Use Case - Guru Volunteer
+'===================================
+actor "Guru Volunteer" as Volunteer
+
+rectangle "GenSmart System" {
+  usecase UC4 as "Daftar Sebagai Guru Volunteer"
+  usecase UC5 as "Isi Form Pendaftaran"
+  usecase UC6 as "Lihat Status Verifikasi"
+  usecase UC7 as "Lihat Jadwal Penugasan"
+  usecase UC8 as "Akses Modul & Pelatihan"
+  usecase UC9 as "Unduh Sertifikat Pelatihan"
+}
+
+Volunteer --> UC4
+UC4 --> UC5 : <<include>>
+UC4 --> UC6 : <<extend>>
+Volunteer --> UC7
+Volunteer --> UC8
+Volunteer --> UC9
+
+newpage
+left to right direction
+
+'===================================
+' PAGE 3: Use Case - Donatur
+'===================================
+actor "Donatur" as Donor
+
+rectangle "GenSmart System" {
+  usecase UC10 as "Kirim Donasi Barang"
+  usecase UC11 as "Kirim Donasi Uang"
+  usecase UC12 as "Lihat Progress Donasi"
+  usecase UC13 as "Beri Testimoni Donasi"
+  usecase UC14 as "Lihat Laporan Donasi"
+}
+
+Donor --> UC10
+Donor --> UC11
+Donor --> UC12
+Donor --> UC13
+Donor --> UC14
+
+newpage
+left to right direction
+
+'===================================
+' PAGE 4: Use Case - Admin Sekolah
+'===================================
+actor "Admin Sekolah" as SchoolAdmin
+
+rectangle "GenSmart System" {
+  usecase UC15 as "Buat Akun Sekolah"
+  usecase UC16 as "Login Akun Sekolah"
+  usecase UC17 as "Kelola Profil Sekolah"
+  usecase UC18 as "Cari Guru Volunteer"
+  usecase UC19 as "Setujui Penugasan Guru"
+  usecase UC20 as "Lihat Status Donasi"
+  usecase UC21 as "Unduh Laporan Donasi"
+}
+
+SchoolAdmin --> UC15
+SchoolAdmin --> UC16
+SchoolAdmin --> UC17
+SchoolAdmin --> UC18
+SchoolAdmin --> UC19
+SchoolAdmin --> UC20
+SchoolAdmin --> UC21
+
+newpage
+left to right direction
+
+'===================================
+' PAGE 5: Use Case - Admin
+'===================================
+actor "Admin" as Admin
+
+rectangle "GenSmart System" {
+  usecase UC22 as "Verifikasi Guru Volunteer"
+  usecase UC23 as "Verifikasi Akun Sekolah"
+  usecase UC24 as "Kelola Modul & Pelatihan"
+  usecase UC25 as "Moderasi Testimoni Alumni"
+  usecase UC26 as "Monitoring Donasi"
+  usecase UC27 as "Buat Laporan Keseluruhan"
+}
+
+Admin --> UC22
+Admin --> UC23
+Admin --> UC24
+Admin --> UC25
+Admin --> UC26
+Admin --> UC27
+
+@enduml
