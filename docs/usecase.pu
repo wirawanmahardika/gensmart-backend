@@ -32,7 +32,7 @@ rectangle "GenSmart System" {
   package "Fitur Admin Sekolah" {
     usecase UC15 as "Buat Akun Sekolah (done)"
     usecase UC16 as "Login Akun Sekolah (done)"
-    usecase UC17 as "Kelola Profil Sekolah"
+    usecase UC17 as "Kelola Profil Sekolah (done)"
     usecase UC18 as "Cari Guru Volunteer (done)"
     usecase UC19 as "Setujui Penugasan Guru"
     usecase UC20 as "Lihat Status Donasi (done)"

@@ -10,3 +10,10 @@ type VerifikasiSekolahRequest struct {
 	IDSekolah string
 	Status    bool `json:"status"`
 }
+
+type UpdateProfileSekolahRequest struct {
+	IDUser    string
+	IDSekolah string
+	Nama      string `json:"nama"`
+	Alamat    string `json:"alamat"`
+}

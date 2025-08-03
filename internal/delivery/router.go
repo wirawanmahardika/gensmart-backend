@@ -66,7 +66,8 @@ func sekolahRouter(router fiber.Router, db *gorm.DB) {
 	sekolahRouter.Use(middleware.JwtAuth())
 
 	sekolahRouter.Post("/", middleware.RoleAuth("admin_sekolah"), sekolahHandler.Create)
-	sekolahRouter.Patch("/:id", middleware.RoleAuth("admin"), sekolahHandler.VerifikasiSekolah)
+	sekolahRouter.Patch("/:id", middleware.RoleAuth("admin_sekolah"), sekolahHandler.UpdateProfile)
+	sekolahRouter.Patch("/:id/verify", middleware.RoleAuth("admin"), sekolahHandler.VerifikasiSekolah)
 }
 
 func donasiRouter(router fiber.Router, db *gorm.DB) {

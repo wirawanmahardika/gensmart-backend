@@ -11,6 +11,7 @@ import (
 type SekolahHandler interface {
 	Create(c *fiber.Ctx) (err error)
 	VerifikasiSekolah(c *fiber.Ctx) (err error)
+	UpdateProfile(c *fiber.Ctx) (err error)
 }
 
 func NewSekolahHandler(uc usecase.SekolahUsecase) SekolahHandler {
@@ -47,4 +48,19 @@ func (h *sekolahHandlerImpl) VerifikasiSekolah(c *fiber.Ctx) (err error) {
 	}
 
 	return c.SendString("Berhasil verifikasi sekolah")
+}
+
+func (h *sekolahHandlerImpl) UpdateProfile(c *fiber.Ctx) (err error) {
+	req := new(dto.UpdateProfileSekolahRequest)
+	if err = c.BodyParser(req); err != nil {
+		return pkg.BodyParserError()
+	}
+
+	req.IDUser, _ = pkg.GetDataFromToken(c)
+	req.IDSekolah = c.Params("id")
+	if err = h.uc.UpdateProfile(req); err != nil {
+		return
+	}
+
+	return c.SendString("Berhasil update profile sekolah")
 }

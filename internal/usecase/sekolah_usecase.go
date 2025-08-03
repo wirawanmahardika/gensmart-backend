@@ -13,6 +13,7 @@ import (
 type SekolahUsecase interface {
 	Create(req *dto.CreateSekolahRequest) (err error)
 	VerifikasiSekolah(req *dto.VerifikasiSekolahRequest) (err error)
+	UpdateProfile(req *dto.UpdateProfileSekolahRequest) (err error)
 }
 
 func NewSekolahUsecase(db *gorm.DB, validate *validator.Validate) SekolahUsecase {
@@ -57,4 +58,15 @@ func (uc *sekolahUsecaseImpl) VerifikasiSekolah(req *dto.VerifikasiSekolahReques
 	}
 
 	return uc.db.Model(&domain.Sekolah{}).Where("id = ?", req.IDSekolah).UpdateColumn("status_verifikasi", req.Status).Error
+}
+
+func (uc *sekolahUsecaseImpl) UpdateProfile(req *dto.UpdateProfileSekolahRequest) (err error) {
+	var sekolah *domain.Sekolah
+	if err = uc.db.Where("id = ? AND id_user = ?", req.IDSekolah, req.IDUser).Take(&sekolah).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			err = fiber.NewError(403, "sekolah yang diupdate tidak ditemukan")
+		}
+		return
+	}
+	return uc.db.Model(&domain.Sekolah{ID: req.IDSekolah}).Updates(&domain.Sekolah{Nama: req.Nama, Alamat: req.Alamat}).Error
 }

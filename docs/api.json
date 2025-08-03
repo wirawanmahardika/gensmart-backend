@@ -457,6 +457,44 @@
         },
         "/v1/sekolah/{id_sekolah}": {
             "patch": {
+                "summary": "ubah profile sekolah",
+                "tags": [
+                    "sekolah"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nama": {
+                                        "type": "string"
+                                    },
+                                    "alamat": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "berhasil ubah profile sekolah",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Berhasil ubah profile sekolah"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/sekolah/{id_sekolah}/verify": {
+            "patch": {
                 "summary": "update status verifikasi",
                 "tags": [
                     "sekolah"
