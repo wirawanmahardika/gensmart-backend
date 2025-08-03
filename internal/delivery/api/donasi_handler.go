@@ -14,6 +14,7 @@ type DonasiHandler interface {
 	UserDonate(c *fiber.Ctx) (err error)
 	VerifyUserDonate(c *fiber.Ctx) (err error)
 	GetOne(c *fiber.Ctx) (err error)
+	GetMany(c *fiber.Ctx) (err error)
 }
 
 func NewDonasiHandler(uc usecase.DonasiUsecase) DonasiHandler {
@@ -82,6 +83,15 @@ func (h *donasiHandlerImpl) VerifyUserDonate(c *fiber.Ctx) (err error) {
 
 func (h *donasiHandlerImpl) GetOne(c *fiber.Ctx) (err error) {
 	donasi, err := h.uc.GetOne(c.Params("id"))
+	if err != nil {
+		return
+	}
+
+	return c.JSON(donasi)
+}
+
+func (h *donasiHandlerImpl) GetMany(c *fiber.Ctx) (err error) {
+	donasi, err := h.uc.GetMany()
 	if err != nil {
 		return
 	}

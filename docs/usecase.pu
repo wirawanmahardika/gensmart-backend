@@ -12,7 +12,7 @@ rectangle "GenSmart System" {
   package "Fitur User Umum" {
     usecase UC1 as "Lihat Informasi Beasiswa"
     usecase UC2 as "Akses Modul Terbuka"
-    usecase UC3 as "Baca Testimoni Alumni"
+    usecase UC3 as "Baca Testimoni Alumni Beasiswa"
     usecase UC10 as "Kirim Donasi Barang"
     usecase UC11 as "Kirim Donasi Uang"
     usecase UC12 as "Lihat Progress Donasi"

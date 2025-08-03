@@ -490,7 +490,48 @@
                 }
             }
         },
+        "/v1/donasi/{id_donasi}": {
+            "get": {
+                "tags": [
+                    "donasi"
+                ],
+                "summary": "ambil donasi berdasarkan id",
+                "responses": {
+                    "200": {
+                        "description": "berhasil mengambil donasi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/donasi"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v1/donasi": {
+            "get": {
+                "tags": [
+                    "donasi"
+                ],
+                "summary": "mengambil banyak donasi",
+                "responses": {
+                    "200": {
+                        "description": "berhasil mengambil donasi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/donasi"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "summary": "membuat permintaan donasi",
                 "tags": [
@@ -644,6 +685,38 @@
                     },
                     "deskripsi": {
                         "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
+                    }
+                }
+            },
+            "donasi": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "id_sekolah": {
+                        "type": "string"
+                    },
+                    "jenis": {
+                        "type": "string"
+                    },
+                    "jumlah": {
+                        "type": "integer"
+                    },
+                    "target": {
+                        "type": "number"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "progress": {
+                        "type": "number"
                     },
                     "created_at": {
                         "type": "string"
