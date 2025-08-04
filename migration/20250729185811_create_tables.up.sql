@@ -102,3 +102,16 @@ CREATE TABLE
     FOREIGN KEY (id_donasi) REFERENCES donasi (id)                                     ,
     FOREIGN KEY (id_user) REFERENCES users (id)
   );
+
+CREATE TABLE
+  testimoni_donasi (
+    id CHAR(36) NOT NULL                                                               ,
+    id_user CHAR(36) NOT NULL                                                          ,
+    id_donasi CHAR(36) NOT NULL                                                        ,
+    isi TEXT NOT NULL                                                                  ,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP                             ,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)                                                                   ,
+    FOREIGN KEY (id_user) REFERENCES users (id)                                        ,
+    FOREIGN KEY (id_donasi) REFERENCES donasi (id)
+  );

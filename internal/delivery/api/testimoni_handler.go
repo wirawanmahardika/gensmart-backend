@@ -45,6 +45,7 @@ func (h *testimoniHandlerImpl) GetUsersTestimoniOnBeasiswa(c *fiber.Ctx) (err er
 
 	return c.JSON(users)
 }
+
 func (h *testimoniHandlerImpl) UpdateStatusTestimoni(c *fiber.Ctx) (err error) {
 	req := new(dto.UpdateStatusTestimoniRequest)
 	if err = c.BodyParser(req); err != nil {

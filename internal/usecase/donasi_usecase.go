@@ -18,6 +18,7 @@ type DonasiUsecase interface {
 	VerifyUserDonate(req *dto.VerifyUserDonateRequest) (err error)
 	GetOne(id string) (donasi *domain.Donasi, err error)
 	GetMany() (donasi []domain.Donasi, err error)
+	UserTestimoniDonation(req *dto.UserTestimoniDonationRequest) (err error)
 }
 
 func NewDonasiUsecase(db *gorm.DB, validate *validator.Validate) DonasiUsecase {
@@ -133,4 +134,19 @@ func (uc *donasiUsecaseImpl) GetMany() (donasi []domain.Donasi, err error) {
 		return
 	}
 	return
+}
+
+func (uc *donasiUsecaseImpl) UserTestimoniDonation(req *dto.UserTestimoniDonationRequest) (err error) {
+	if err = uc.validate.Struct(req); err != nil {
+		return
+	}
+
+	var countTestimoni int64
+	if err = uc.db.Model(&domain.Donasi{}).Where("id = ?", req.IDDonasi).Count(&countTestimoni).Error; err != nil {
+		return
+	} else if countTestimoni == 0 {
+		return fiber.NewError(404, "donasi yang ingin dikomen tidak ditemukan")
+	}
+
+	return uc.db.Create(&domain.TestimoniDonasi{Isi: req.Isi, IDUser: req.IDUser, IDDonasi: req.IDDonasi}).Error
 }

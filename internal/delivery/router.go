@@ -83,4 +83,5 @@ func donasiRouter(router fiber.Router, db *gorm.DB) {
 	donasiRouter.Patch("/:id/verify", middleware.RoleAuth("admin"), donasiHandler.VerifyDonate)
 	donasiRouter.Post("/user", donasiHandler.UserDonate)
 	donasiRouter.Patch("/user/:id/verify", middleware.RoleAuth("admin"), donasiHandler.VerifyUserDonate)
+	donasiRouter.Post("/:id/testimoni", donasiHandler.UserTestimoniDonation)
 }

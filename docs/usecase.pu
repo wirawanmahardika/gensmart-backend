@@ -27,6 +27,7 @@ rectangle "GenSmart System" {
     usecase UC7 as "Lihat Jadwal Penugasan"
     usecase UC8 as "Akses Modul & Pelatihan"
     usecase UC9 as "Unduh Sertifikat Pelatihan"
+    usecase UC28 as "Akses Modul Tertutup"
   }
 
   package "Fitur Admin Sekolah" {
@@ -66,6 +67,7 @@ UC4 --> UC6 : <<extend>>
 Volunteer --> UC7
 Volunteer --> UC8
 Volunteer --> UC9
+Volunteer --> UC28
 
 '--- Relasi Admin Sekolah ---
 SchoolAdmin --> UC15

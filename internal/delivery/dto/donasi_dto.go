@@ -22,3 +22,9 @@ type VerifyUserDonateRequest struct {
 	IDDonateUser string
 	Status       string `json:"status"`
 }
+
+type UserTestimoniDonationRequest struct {
+	IDDonasi string
+	IDUser   string
+	Isi      string `json:"isi"`
+}

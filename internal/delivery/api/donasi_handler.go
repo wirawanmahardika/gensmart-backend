@@ -15,6 +15,7 @@ type DonasiHandler interface {
 	VerifyUserDonate(c *fiber.Ctx) (err error)
 	GetOne(c *fiber.Ctx) (err error)
 	GetMany(c *fiber.Ctx) (err error)
+	UserTestimoniDonation(c *fiber.Ctx) (err error)
 }
 
 func NewDonasiHandler(uc usecase.DonasiUsecase) DonasiHandler {
@@ -97,4 +98,19 @@ func (h *donasiHandlerImpl) GetMany(c *fiber.Ctx) (err error) {
 	}
 
 	return c.JSON(donasi)
+}
+
+func (h *donasiHandlerImpl) UserTestimoniDonation(c *fiber.Ctx) (err error) {
+	req := new(dto.UserTestimoniDonationRequest)
+	if err = c.BodyParser(req); err != nil {
+		return
+	}
+
+	req.IDDonasi = c.Params("id")
+	req.IDUser, _ = pkg.GetDataFromToken(c)
+	if err = h.uc.UserTestimoniDonation(req); err != nil {
+		return
+	}
+
+	return c.Status(201).SendString("Berhasil memberi testimoni")
 }
