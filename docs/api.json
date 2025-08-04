@@ -540,7 +540,25 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/donasi"
+                                    "example": {
+                                        "id": "425bf2e6-f5b1-42c1-be40-b9f9769c7f8a",
+                                        "id_sekolah": "ad75b051-81a2-4fcf-99ca-dbeaff469575",
+                                        "jenis": "uang",
+                                        "jumlah": 80000,
+                                        "target": 1000000,
+                                        "status": "verified",
+                                        "progress": 0.08,
+                                        "created_at": "2025-08-02T11:24:52Z",
+                                        "updated_at": "2025-08-03T05:18:39Z",
+                                        "testimoni_donasi": [
+                                            {
+                                                "donatur": "donatur username",
+                                                "email_donatur": "user@gmail.com",
+                                                "role_donatur": "user",
+                                                "pesan": "mantap donasinya"
+                                            }
+                                        ]
+                                    }
                                 }
                             }
                         }

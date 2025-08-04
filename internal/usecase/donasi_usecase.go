@@ -16,7 +16,7 @@ type DonasiUsecase interface {
 	VerifyDonate(req *dto.VerifyDonateRequest) (err error)
 	UserDonate(req *dto.UserDonateRequest) (err error)
 	VerifyUserDonate(req *dto.VerifyUserDonateRequest) (err error)
-	GetOne(id string) (donasi *domain.Donasi, err error)
+	GetOne(id string) (res dto.GetOneDonasiResponse, err error)
 	GetMany() (donasi []domain.Donasi, err error)
 	UserTestimoniDonation(req *dto.UserTestimoniDonationRequest) (err error)
 }
@@ -119,13 +119,39 @@ func (uc *donasiUsecaseImpl) VerifyUserDonate(req *dto.VerifyUserDonateRequest) 
 	})
 }
 
-func (uc *donasiUsecaseImpl) GetOne(id string) (donasi *domain.Donasi, err error) {
-	if err = uc.db.Take(&donasi, "id = ?", id).Error; err != nil {
+func (uc *donasiUsecaseImpl) GetOne(id string) (res dto.GetOneDonasiResponse, err error) {
+	var donasi *domain.Donasi
+	if err = uc.db.
+		Preload("TestimoniDonasi.Users").
+		Take(&donasi, "donasi.id = ?", id).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			err = fiber.NewError(404, "donasi tidak ditemukan")
 		}
 		return
 	}
+
+	res = dto.GetOneDonasiResponse{
+		ID:        donasi.ID,
+		IDSekolah: donasi.IDSekolah,
+		Jenis:     donasi.Jenis,
+		Jumlah:    donasi.Jumlah,
+		Target:    donasi.Target,
+		Status:    donasi.Status,
+		Progress:  donasi.Progress,
+		CreatedAt: donasi.CreatedAt,
+		UpdatedAt: donasi.UpdatedAt,
+	}
+
+	donatur := make([]dto.Donatur, 0, len(donasi.TestimoniDonasi))
+	for _, v := range donasi.TestimoniDonasi {
+		donatur = append(donatur, dto.Donatur{
+			Donatur:      v.Users.Name,
+			EmailDonatur: v.Users.Email,
+			RoleDonatur:  v.Users.Role,
+			Pesan:        v.Isi,
+		})
+	}
+	res.TestimoniDonasi = donatur
 	return
 }
 

@@ -18,7 +18,9 @@ type Donasi struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 
-	User *Users `json:"user,omitempty" gorm:"foreignKey:IDSekolah;references:ID"`
+	User            *Users            `json:"user,omitempty" gorm:"foreignKey:IDSekolah;references:ID"`
+	TestimoniDonasi []TestimoniDonasi `json:"testimoni_donasi,omitempty" gorm:"foreignKey:IDDonasi;references:id"`
+	UserTestimoni   []Users           `json:"user_testimoni,omitempty" gorm:"many2many:testimoni_donasi;foreignKey:ID;joinForeignKey:IDDonasi;references:ID;joinReferences:IDUser"`
 }
 
 func (e *Donasi) TableName() string { return "donasi" }

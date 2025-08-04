@@ -83,12 +83,12 @@ func (h *donasiHandlerImpl) VerifyUserDonate(c *fiber.Ctx) (err error) {
 }
 
 func (h *donasiHandlerImpl) GetOne(c *fiber.Ctx) (err error) {
-	donasi, err := h.uc.GetOne(c.Params("id"))
+	res, err := h.uc.GetOne(c.Params("id"))
 	if err != nil {
 		return
 	}
 
-	return c.JSON(donasi)
+	return c.JSON(res)
 }
 
 func (h *donasiHandlerImpl) GetMany(c *fiber.Ctx) (err error) {
